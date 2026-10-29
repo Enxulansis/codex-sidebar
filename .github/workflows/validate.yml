@@ -6,13 +6,17 @@ jobs:
   windows:
     runs-on: windows-latest
     timeout-minutes: 15
-    env:
-      # The runner's profile TEMP may contain an 8.3 alias. Use its canonical
-      # job temp directory so path-ownership checks exercise the intended root.
-      TEMP: ${{ runner.temp }}
-      TMP: ${{ runner.temp }}
     steps:
       - uses: actions/checkout@v4
+      - name: Use canonical test temp directory
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          # The profile TEMP can use an 8.3 alias; resolve the job temp root.
+          $testTemp = node -p "require('node:fs').realpathSync(process.env.RUNNER_TEMP)"
+          if ($LASTEXITCODE -ne 0) { throw 'Cannot resolve test temp directory' }
+          "TEMP=$testTemp" >> $env:GITHUB_ENV
+          "TMP=$testTemp" >> $env:GITHUB_ENV
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
