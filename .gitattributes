@@ -1,0 +1,2 @@
+# These upstream payloads are verified byte-for-byte by the document build.
+src/codex-prototype/vendor/* -text

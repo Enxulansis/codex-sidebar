@@ -1,7 +1,7 @@
 ---
 _file:
   created: "2026-10-26 23:53"
-  updated: "2026-10-29 20:11"
+  updated: "2026-10-29 20:23"
   timezone: "Asia/Shanghai"
   status: active
 ---
@@ -14,7 +14,7 @@ _file:
 
 - 目标：独立的 Windows VS Code Codex 侧栏项目；本地准备完成后先审核 README，再授权 GitHub 上传。保留 lixxx1-lab.dsh-codex-experiment 扩展 ID。
 - 背景与约束：源自 DSH，独立仓库发布；保留扩展 ID。暂不上架 Marketplace。未经用户审核与明确授权不上传。
-- 当前状态：dev.22 功能测试、公开后端隔离检查与本地打包通过；用户已授权复查后上传至 Enxulansis/codex-sidebar，按有限验证预览版发布。
+- 当前状态：dev.22 已上传至 Enxulansis/codex-sidebar，并作为有限验证预览版发布；源码与 Release 附件哈希核验通过。
 - 项目根目录：本文所在目录。公开文档使用相对路径。
 
 ## 文件地图
@@ -49,7 +49,7 @@ _file:
 ## 当前交接
 
 - 最近结果：134 个测试文件／2519 项功能检查通过；公开后端空配置初始化与工作区只读调用通过，无模型调用。
-- 下一步：完成 GitHub 上传与远端核验；真实编辑器首装和账号在线对话不冒充已验收。
+- 下一步：持续核对 GitHub Actions 验证结果；真实编辑器首装和账号在线对话不冒充已验收。
 - 待办索引：`待完成/_index.md`。
 
 ## 技能与配置

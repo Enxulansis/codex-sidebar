@@ -6,6 +6,11 @@ jobs:
   windows:
     runs-on: windows-latest
     timeout-minutes: 15
+    env:
+      # The runner's profile TEMP may contain an 8.3 alias. Use its canonical
+      # job temp directory so path-ownership checks exercise the intended root.
+      TEMP: ${{ runner.temp }}
+      TMP: ${{ runner.temp }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
