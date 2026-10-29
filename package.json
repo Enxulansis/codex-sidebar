@@ -1,6 +1,6 @@
 {
   "name": "codex-sidebar",
-  "version": "0.1.78-dev.22",
+  "version": "0.1.78-dev.23",
   "codexDailyChat": true,
   "private": true,
   "type": "commonjs",

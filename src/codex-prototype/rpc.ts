@@ -58,7 +58,7 @@ export class Rpc extends EventEmitter implements Transport {
     const policy=workspaceScript?{command:process.execPath,script:workspaceScript,root:cwd}:undefined;
     const rpc = new Rpc(spawn(PIN.path, instanceArgs(policy), {cwd, windowsHide: true, stdio: 'pipe'}),60_000,allowModelDispatch,policy);
     try {
-      await rpc.request('initialize', {clientInfo: {name: 'codex_sidebar', title: 'Codex Sidebar', version: '0.1.78-dev.22'}, capabilities: {experimentalApi: nativeModes, requestAttestation: false}});
+      await rpc.request('initialize', {clientInfo: {name: 'codex_sidebar', title: 'Codex Sidebar', version: '0.1.78-dev.23'}, capabilities: {experimentalApi: nativeModes, requestAttestation: false}});
       rpc.write({method: 'initialized'});
       return rpc;
     } catch (e) { await rpc.dispose(); throw e; }

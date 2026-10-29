@@ -2,7 +2,7 @@
 
 非官方 Windows x64 Codex 侧栏，源自 DSH。支持长对话阅读、草稿与附件保护、图片和文档文本、搜索、规划、对话回退与后台额度更新。
 
-本包为 0.1.78-dev.22 有限验证预览版，不由 OpenAI 提供或背书。保留扩展 ID `lixxx1-lab.dsh-codex-experiment`，需要 VS Code 1.125.0 或以上、本地受信任工作区、受支持 Codex 后端及有效登录。
+本包为 0.1.78-dev.23 有限验证预览版，不由 OpenAI 提供或背书。保留扩展 ID `lixxx1-lab.dsh-codex-experiment`，需要 VS Code 1.125.0 或以上、本地受信任工作区、受支持 Codex 后端及有效登录。
 
 ## 后端准备
 

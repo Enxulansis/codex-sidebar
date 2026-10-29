@@ -6,7 +6,7 @@ export const FILE_LIMITS={entries:100,bytes:1024*1024,characters:24000,lines:200
 export function relativeFilePath(value:unknown):string{
  if(typeof value!=='string'||value.length>1024||/[\x00-\x1f\x7f:]/.test(value)||value.startsWith('/')||value.startsWith('\\'))throw Error('请输入工作区内的相对路径');
  const parts=value.replace(/\\/g,'/').split('/');
- if(parts.some(p=>p==='..'||p.startsWith('.')&&p!=='.'||p.endsWith(' ')||p.endsWith('.')&&p!=='.'||/^(con|prn|aux|nul|com[0-9]|lpt[0-9])(?:\.|$)/i.test(p)||p==='node_modules'))throw Error('此路径不在只读服务支持范围内');
+ if(parts.some(p=>p==='..'||p.startsWith('.')&&p!=='.'||p.endsWith(' ')||p.endsWith('.')&&p!=='.'||/^(con|prn|aux|nul|com[0-9]|lpt[0-9])(?:\.|$)/i.test(p)||p.toLowerCase()==='node_modules'))throw Error('此路径不在只读服务支持范围内');
  return parts.filter(p=>p&&p!=='.').join('/')||'.';
 }
 export function fileArguments(tool:unknown,args:any):{path:string;startLine?:number}{

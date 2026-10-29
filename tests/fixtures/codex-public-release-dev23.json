@@ -1,0 +1,10 @@
+{
+  "inheritedCheckpoint": "tests/fixtures/codex-public-release-dev22.json",
+  "inheritedCheckpointSha256": "964657bb4da1947e9a36ab04e5d11f64ad7277e8d30e3ee0562fa9568a962b96",
+  "reviewedChanges": {
+    "src/codex-prototype/rpc.ts": "7bca8364ad69902b21ccbd46409bd0ebeaa25636c443583ebd495e1566dcfcd3",
+    "src/codex-prototype/display/settings-panel.ts": "4e43fa9323ea31aa8c4d3718224ddc097c2111d11c523db6f8a5a654d8ff9974",
+    "src/codex-prototype/workspace-files-contract.ts": "2f3c818b3412d42d3bf68e531a38314227435a9f4ee015081ced91327e93b16d"
+  },
+  "reason": "dev.23: settings retry focus, case-insensitive dependency exclusion, and release client version"
+}

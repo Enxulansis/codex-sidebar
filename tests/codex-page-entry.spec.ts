@@ -10,6 +10,7 @@ const readSource=(path:string)=>readFileSync(path,'utf8').replace(/\r\n/g,'\n');
 const baseline=JSON.parse(readSource('tests/fixtures/codex-page-entry-baseline.json'));
 const daily=JSON.parse(readSource('tests/fixtures/codex-page-entry-daily-dev21.json'));
 const publicRelease=JSON.parse(readSource('tests/fixtures/codex-public-release-dev22.json'));
+const dev23=JSON.parse(readSource('tests/fixtures/codex-public-release-dev23.json'));
 const dev20Path='tests/fixtures/codex-page-entry-daily-dev20.json';
 const dev20=JSON.parse(readSource(dev20Path));
 const dev19Path='tests/fixtures/codex-page-entry-daily-dev19.json';
@@ -138,7 +139,10 @@ describe('historical extraction provenance and current daily page contract',()=>
  it('pins every original protected source plus the current complete webview and entry without erasing guards',()=>{
   expect(Object.keys(daily.protectedFiles).sort()).toEqual([...Object.keys(baseline.protectedFiles),'src/codex-prototype/webview.ts','src/codex-prototype/page-entry.ts'].sort());
   expect(Object.keys(publicRelease.reviewedChanges).sort()).toEqual(['src/codex-prototype/pin.ts','src/codex-prototype/rpc.ts','src/codex-prototype/tools.ts']);
-  const mismatches=Object.entries({...daily.protectedFiles,...publicRelease.reviewedChanges}).flatMap(([path,expected])=>{const actual=sha(readSource(path));return actual===expected?[]:[{path,expected,actual}];});
+  expect(dev23.inheritedCheckpoint).toBe('tests/fixtures/codex-public-release-dev22.json');
+  expect(dev23.inheritedCheckpointSha256).toBe(sha(readSource(dev23.inheritedCheckpoint)));
+  expect(Object.keys(dev23.reviewedChanges).sort()).toEqual(['src/codex-prototype/display/settings-panel.ts','src/codex-prototype/rpc.ts','src/codex-prototype/workspace-files-contract.ts']);
+  const mismatches=Object.entries({...daily.protectedFiles,...publicRelease.reviewedChanges,...dev23.reviewedChanges}).flatMap(([path,expected])=>{const actual=sha(readSource(path));return actual===expected?[]:[{path,expected,actual}];});
   expect(mismatches).toEqual([]);
  });
  it('checks rendering, send gates, identity and action functions at the reviewed daily checkpoint',()=>{

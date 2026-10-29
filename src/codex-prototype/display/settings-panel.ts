@@ -112,7 +112,11 @@ export class DisplaySettingsPanel {
   this.capabilitySection=section;this.body.scrollTop=scroll;
  }
  private render(){
-  if(!this.enabled){this.controls?.dispose();this.controls=undefined;this.renderToken++;this.storageInfo=undefined;this.storageButton=undefined;this.environmentSection=undefined;this.capabilitySection=undefined;this.retry.hidden=false;this.retry.disabled=this.readId!==undefined;this.body.replaceChildren(this.status,this.retry);return;}
+  const priorFocus=document.activeElement instanceof HTMLElement&&this.body.contains(document.activeElement)?document.activeElement:undefined;
+  // Reattaching retry/service controls loses DOM focus; disabled controls need
+  // a stable target while their asynchronous request is pending.
+  const restoreActionFocus=()=>{if(!priorFocus||this.panel.contains(document.activeElement))return;const target=priorFocus.isConnected&&!priorFocus.matches(':disabled')&&!priorFocus.hidden?priorFocus:this.panel.querySelector<HTMLElement>('#settingsClose');target?.focus({preventScroll:true});};
+  if(!this.enabled){this.controls?.dispose();this.controls=undefined;this.renderToken++;this.storageInfo=undefined;this.storageButton=undefined;this.environmentSection=undefined;this.capabilitySection=undefined;this.retry.hidden=false;this.retry.disabled=this.readId!==undefined;this.body.replaceChildren(this.status,this.retry);restoreActionFocus();return;}
   const active=document.activeElement,controlFocus=active instanceof HTMLElement&&active.matches('[role="option"]')?active.closest('.ds-drop')?.querySelector('.ds-trigger'):active,focusRow=controlFocus instanceof HTMLElement&&this.body.contains(controlFocus)?controlFocus.closest<HTMLElement>('[data-setting]'):null,focusSetting=focusRow?.dataset.setting,focusIndex=focusRow?Array.from(focusRow.querySelectorAll('button,input,select')).indexOf(controlFocus as HTMLElement):-1;
   const focusedSummary=active instanceof HTMLElement&&active.tagName==='SUMMARY'&&this.body.contains(active)?active:undefined,focusAudit=focusedSummary?.parentElement?.dataset.storageAudit;
   const scroll=this.body.scrollTop;this.controls?.dispose();const c=this.controls=createSettingsControls(),s=this.config,section=c.settingsSection('复制'),token=++this.renderToken;
@@ -184,6 +188,7 @@ export class DisplaySettingsPanel {
     this.body.replaceChildren(...sections,this.status);if(this.blocked)this.body.querySelectorAll('button,input,select').forEach(e=>{if(!this.services.element.contains(e))(e as HTMLInputElement).disabled=true;});this.retry.hidden=!this.blocked;this.retry.disabled=this.readId!==undefined;this.body.append(this.retry);this.body.scrollTop=scroll;
     if(focusSetting&&focusIndex>=0){const row=Array.from(this.body.querySelectorAll<HTMLElement>('[data-setting]')).find(row=>row.dataset.setting===focusSetting),next=row?.querySelectorAll<HTMLElement>('button,input,select')[focusIndex];if(next&&!next.matches(':disabled')&&next.getClientRects().length)next.focus({preventScroll:true});else if(this.blocked&&!this.retry.disabled)this.retry.focus({preventScroll:true});}
     else if(focusedSummary){const next=focusAudit?Array.from(this.body.querySelectorAll<HTMLElement>('[data-storage-audit]')).find(e=>e.dataset.storageAudit===focusAudit)?.querySelector('summary'):focusedSummary;if(next?.isConnected&&next.getClientRects().length)next.focus({preventScroll:true});}
+    restoreActionFocus();
  }
  dispose(){this.dead=true;this.restoreBackground();this.environment.dispose();this.services.dispose();clearTimeout(this.loadTimer);clearTimeout(this.storageRequest?.timer);this.controls?.dispose();for(const task of this.pending.values()){clearTimeout(task.timer);task.resolve();}this.pending.clear();this.host.messages.removeEventListener('message',this.onMessage);document.removeEventListener('keydown',this.onKey);this.body.removeEventListener('focusout',this.queueRefresh);document.removeEventListener('click',this.queueRefresh);}
 }

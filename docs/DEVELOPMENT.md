@@ -20,7 +20,7 @@ pnpm package
 
 ## 测试范围
 
-`pnpm test` 执行 134 个 Codex 功能测试文件。原工程 18 个 DSH 全界面对照／旧发布器／旧启动器测试未纳入独立工程：相关旧实现已经不在本仓库。数学扫描器和搜索语义所需的小型 DSH 参考夹具仍保留署名及比对，不使用新实现生成预期值。
+`pnpm test` 执行 `tests/codex*.spec.ts` 中的 Codex 功能测试。原工程 18 个 DSH 全界面对照／旧发布器／旧启动器测试未纳入独立工程：相关旧实现已经不在本仓库。数学扫描器和搜索语义所需的小型 DSH 参考夹具仍保留署名及比对，不使用新实现生成预期值。
 
 公开后端位置、客户端身份及干净配置修复使用独立 dev.22 指纹记录，原 dev.21 和此前的受保护基线保留。首轮提取发现的依赖缺口、固定路径和指纹差异已修正；未通过项不会被隐藏成跳过。
 
@@ -32,7 +32,7 @@ node scripts/check-ui.mjs --source=. --out=_temp/ui-check --playwright=<Playwrig
 
 输出目录必须为新目录。可加 `--docs=docs/images` 重新生成文档图片。该检查使用合成宿主、虚构内容，并阻止外部网页请求；不代表真实 VS Code 或在线模型调用。浏览器依赖不写入运行时包。
 
-`.github/workflows/validate.yml` 提供 Windows 的类型、功能测试、构建和打包检查。尚未在 GitHub 执行；不含上传或发布步骤。
+`.github/workflows/validate.yml` 提供 Windows 的类型、功能测试、构建和打包检查。公开基线已在 GitHub 全新 Windows 环境通过，记录见 [Actions](https://github.com/Enxulansis/codex-sidebar/actions)；工作流不含上传或发布步骤。
 
 ## 独立整理原则
 
