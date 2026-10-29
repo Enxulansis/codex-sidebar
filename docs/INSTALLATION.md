@@ -59,7 +59,7 @@ node .\setup-backend.mjs
 2. 在 VS Code 扩展菜单中选择“从 VSIX 安装”，选择下载的文件。
 3. 按提示重新加载，运行“Codex: 显示加载信息”核对版本；打开受信任工作区，进入侧栏、新建会话并核对模型与权限。
 
-当前未上传正式 Release，勿把第三方同名下载链接当作本项目发布源。上述真实编辑器和在线步骤仍须首次使用验收；本地自动化通过不等于完整端到端通过。
+下载入口为 [Enxulansis/codex-sidebar Releases](https://github.com/Enxulansis/codex-sidebar/releases)，当前提供有限验证预览版。上述真实编辑器和在线步骤仍须首次使用验收；本地自动化通过不等于完整端到端通过。
 
 ## 升级、回退和资料
 
