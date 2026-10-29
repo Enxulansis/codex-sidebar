@@ -1,0 +1,28 @@
+[
+  [
+    {
+      "sessionId": "a",
+      "messageId": "mcp",
+      "total": 1,
+      "time": 0,
+      "role": "tool",
+      "kind": "工具",
+      "snippet": "fixture lookup",
+      "snippetLong": "fixture lookup",
+      "trashed": false
+    }
+  ],
+  [
+    {
+      "sessionId": "a",
+      "messageId": "mcp",
+      "total": 1,
+      "time": 0,
+      "role": "tool",
+      "kind": "工具",
+      "snippet": "output needle",
+      "snippetLong": "output needle",
+      "trashed": false
+    }
+  ]
+]

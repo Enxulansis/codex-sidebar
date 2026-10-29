@@ -1,0 +1,8 @@
+/** Display acknowledgement identity, separate from App Server RPC and approval IDs. */
+import {validFiles,validExtraImages,validAttachmentSet,draftImages,validDraftEditId} from './draft-store-types';
+import {validImageProofs} from './attachment-policy';
+import {validSkillReference,matchesSkillPrompt} from './skill-reference';
+export function matchesSendRequest(m:any,identity:{threadId:string;connectionId:number}|undefined){return !!identity&&m?.type==='send'&&Number.isSafeInteger(m.requestId)&&m.requestId>0&&typeof m.viewId==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(m.viewId)&&m.threadId===identity.threadId&&m.connectionId===identity.connectionId&&typeof m.text==='string'&&(m.text.trim().length>0||!!m.image||!!m.extraImages?.length||!!m.files?.length)&&m.text.length<=20000&&(m.image===undefined||typeof m.image==='string');}
+export function validClientMessageId(value:unknown):value is string{return typeof value==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(value);}
+export function validSendFiles(m:any){return validDraftEditId(m.draftEditId)&&(m.clientUserMessageId===undefined||validClientMessageId(m.clientUserMessageId))&&(m.skill===undefined||typeof m.text==='string'&&validSkillReference(m.skill)&&matchesSkillPrompt(m.text,m.skill))&&(m.files===undefined||validFiles(m.files))&&(m.extraImages===undefined||validExtraImages(m.extraImages))&&validAttachmentSet({image:m.image||'',imageToken:m.imageToken||'',extraImages:m.extraImages,files:m.files})&&validImageProofs(draftImages({image:m.image||'',imageToken:m.imageToken||'',extraImages:m.extraImages}),m.imageProofs);}
+export const SEND_ACK_TIMEOUT_MS=30000;

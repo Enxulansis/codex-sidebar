@@ -1,0 +1,5 @@
+{
+  "purpose": "R02 authorized keyboard/accessibility adaptation; browser behavior covered by settings-lifecycle and model-picker pages",
+  "dshFactorySha256": "23d88354253518c0325cf28df839d84b987252e4fac0f230f707752e834b6f46",
+  "sharedControlsSha256": "1f4a475daaea1873591484da2b75893409f6cb3189ff251c59bc49da94f63f24"
+}

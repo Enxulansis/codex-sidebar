@@ -1,0 +1,25 @@
+// Display styles only: Markdown, static images and user message controls; no transport or rail.
+import {PREVIEW_STYLE} from './preview-style';
+import {MATH_STYLE} from './math-style';
+import {TEXT_STYLE} from './text-style';
+import {BLOCK_COPY_STYLE} from './block-copy-style';
+import {BLOCK_FOLD_STYLE} from './block-fold';
+import {BLOCK_LAYOUT_STYLE} from './block-layout-style';
+import {MARKDOWN_STYLE} from './markdown-style';
+import {USER_MESSAGE_FOLD_STYLE} from './user-message-fold';
+import {MESSAGE_ACTION_STYLE} from './message-actions';
+import {CLOCK_STYLE} from './message-tail';
+import {USAGE_STYLE} from './usage-details';
+import {COMPOSER_STYLE} from './composer';
+import {DRAFT_IMAGE_STYLE} from './draft-image';
+import {TOOL_STYLE} from './tool-cards';
+import {WORK_SEGMENT_STYLE} from './work-segment-fold';
+import {MESSAGE_LAYOUT_STYLE} from './message-layout';
+import {RUNTIME_NOTICE_STYLE} from './runtime-notices';
+import {ACTIVITY_STYLE} from './activity';
+import {MESSAGE_FILE_STYLE} from './message-files';
+import {FILE_REFERENCE_STYLE} from './file-references';
+import {CHANGED_FILES_STYLE} from './changed-files';
+import {QUESTION_RECORD_STYLE} from './question-record';
+import {CODEX_PRESENCE_STYLE} from './codex-presence';
+export const DISPLAY_STYLE = `.markdown{overflow-wrap:anywhere}.inert-link{color:#90a7ed;text-decoration:underline dotted;cursor:default}.missing-image{color:#d2b48c}.image-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.image-card{display:flex;flex-direction:column;align-items:flex-start;gap:6px;max-width:230px}.image-card img{max-width:200px;max-height:130px}${PREVIEW_STYLE}${MATH_STYLE}${TEXT_STYLE}${BLOCK_COPY_STYLE}${BLOCK_FOLD_STYLE}${BLOCK_LAYOUT_STYLE}${MARKDOWN_STYLE}${USER_MESSAGE_FOLD_STYLE}${MESSAGE_ACTION_STYLE}${CLOCK_STYLE}${USAGE_STYLE}${COMPOSER_STYLE}${DRAFT_IMAGE_STYLE}${TOOL_STYLE}${WORK_SEGMENT_STYLE}${MESSAGE_LAYOUT_STYLE}${RUNTIME_NOTICE_STYLE}${ACTIVITY_STYLE}${MESSAGE_FILE_STYLE}${FILE_REFERENCE_STYLE}${CHANGED_FILES_STYLE}${QUESTION_RECORD_STYLE}${CODEX_PRESENCE_STYLE}.tool.empty summary{list-style:none;cursor:default}.tool.empty summary::-webkit-details-marker{display:none}.toast{max-width:min(420px,calc(100vw - 24px));overflow-wrap:anywhere;pointer-events:none;}`;

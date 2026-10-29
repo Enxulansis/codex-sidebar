@@ -1,0 +1,37 @@
+{
+  "name": "codex-sidebar",
+  "version": "0.1.78-dev.22",
+  "codexDailyChat": true,
+  "private": true,
+  "type": "commonjs",
+  "license": "MIT",
+  "packageManager": "pnpm@11.7.0",
+  "engines": {"node": ">=22.19.0"},
+  "scripts": {
+    "typecheck": "tsc -p experiments/codex-panel/tsconfig.json --noEmit",
+    "build": "node experiments/codex-panel/build.mjs --production",
+    "test": "vitest run",
+    "package": "node scripts/package.mjs"
+  },
+  "devDependencies": {
+    "vitest": "4.1.10",
+    "happy-dom": "20.12.0",
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "@shikijs/core": "1.29.2",
+    "@shikijs/engine-javascript": "1.29.2",
+    "@shikijs/langs": "1.29.2",
+    "@shikijs/themes": "1.29.2",
+    "@types/node": "22.20.1",
+    "@types/vscode": "1.125.0",
+    "@vscode/vsce": "3.9.2",
+    "esbuild": "0.25.12",
+    "katex": "0.16.11",
+    "markdown-it": "14.1.0",
+    "markdown-it-task-lists": "2.1.1",
+    "mathjax": "3.2.2",
+    "pako": "1.0.11",
+    "typescript": "6.0.3",
+    "utif2": "4.1.0",
+    "zod": "3.25.76"
+  }
+}

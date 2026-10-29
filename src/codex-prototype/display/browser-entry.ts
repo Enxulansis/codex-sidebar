@@ -1,0 +1,26 @@
+import {startPage as mountPage} from '../page-entry';
+import {createVsCodePageHost} from '../vscode-page-host';
+import {renderMarkdown} from './markdown';
+import {ImagePreview,imageCard,safeImageSource,previewLimits} from './image-preview';
+import {closeMathMenu,closeStaleMathMenu} from './dsh-math-export';
+import {DisplaySettingsPanel} from './settings-panel';
+import {BlockFoldMemory} from './block-fold-memory';
+import {UserFoldMemory} from './user-fold-memory';import {UserMessageFolds} from './user-message-fold';
+import {MessageCopyBridge} from './message-copy-bridge';import {MessageActions} from './message-actions';
+import {ImageExportBridge} from './image-export-bridge';import {clearDisplayToast}from './dsh-math-export';
+import {UsageDetailsControl,latestUsageMeta} from './usage-details';
+import {ContentColumn} from './content-column';import {PromptComposer} from './composer';
+import {DraftMemory} from './draft-memory';
+import {DraftImageChip} from './draft-image';
+import {AttachmentInput} from './attachment-input';
+import {FileActionBridge} from './file-action-bridge';import {messageFileCards} from './message-files';
+import {ConversationScroll} from './conversation-scroll';
+import {ReplyActionBridge} from './reply-action-bridge';
+import {ToolCards} from './tool-cards';import {ToolExpansionMemory} from './tool-expansion-memory';
+import {applyWorkSegments,foldedWorkItems,assistantPhaseLabel} from './work-segment-fold';import {WorkFoldMemory} from './work-fold-memory';
+import {messageHead} from './message-layout';import {configureDisplayHints} from './hint-duration';
+import {renderRuntimeNotices,renderTurnErrors,recoverySendReason} from './runtime-notices';
+import {ActivityIndicator,applyMotion} from './activity';
+export const displayLibrary={renderMarkdown,ImagePreview,imageCard,safeImageSource,previewLimits,closeMathMenu,closeStaleMathMenu,DisplaySettingsPanel,BlockFoldMemory,UserFoldMemory,UserMessageFolds,MessageCopyBridge,MessageActions,ImageExportBridge,clearDisplayToast,UsageDetailsControl,latestUsageMeta,ContentColumn,PromptComposer,DraftMemory,DraftImageChip,AttachmentInput,FileActionBridge,messageFileCards,ConversationScroll,ReplyActionBridge,ToolCards,ToolExpansionMemory,applyWorkSegments,foldedWorkItems,assistantPhaseLabel,WorkFoldMemory,messageHead,configureDisplayHints,renderRuntimeNotices,renderTurnErrors,recoverySendReason,ActivityIndicator,applyMotion};
+function startPage(sendAckTimeoutMs:number,formulaExportTimeoutMs:number){mountPage(createVsCodePageHost(),sendAckTimeoutMs,formulaExportTimeoutMs);}
+window.__codexDisplay={...displayLibrary,startPage};

@@ -1,0 +1,43 @@
+import {describe,it,expect,vi} from 'vitest';
+import {ThreadCatalog,THREAD_CATALOG_KEY} from '../src/codex-prototype/thread-catalog';
+import {handleThreadReadState,type SidebarReadContext} from '../src/codex-prototype/thread-read-state';
+import {SessionBar} from '../src/codex-prototype/display/session-bar';
+const root='D:/synthetic-unread',thread=(id:string)=>({id,name:id,preview:'',updatedAt:1,cwd:root,turns:[],status:{type:'idle'}}as any);
+async function fixture(){const values=new Map<string,unknown>(),io={get:<T>(k:string,f:T)=>structuredClone(values.has(k)?values.get(k):f)as T,update:vi.fn(async(k:string,v:unknown)=>{values.set(k,structuredClone(v));})},catalog=new ThreadCatalog(io);await catalog.observe(thread('a'));await catalog.observe(thread('b'));const ctx:SidebarReadContext={connectionId:1,threadId:'a',owned:['a','b'],ready:true,busy:false,operating:false,loaded:true,visible:true},post=vi.fn(),message={type:'thread-read-state',id:1,threadId:'b',connectionId:1,unread:true};return{io,values,catalog,ctx,post,message,handle:(m=message)=>handleThreadReadState(catalog,m,()=>ctx,()=>true,post)};}
+describe('sidebar unread state is durable local metadata, separate from history mutations',()=>{
+ it('persists marks in the existing record and preserves them through observe, refresh, archive and cold restart',async()=>{
+  const f=await fixture();await f.handle();expect(f.post).toHaveBeenCalledWith({type:'thread-result',id:1,connectionId:1,ok:true});expect(new ThreadCatalog(f.io).get('b')?.unread).toBe(true);
+  await f.catalog.observe({...thread('b'),name:'fresh name'});await f.catalog.list({request:vi.fn(async()=>({data:[thread('a'),thread('b')],nextCursor:null}))}as any,root,()=>f.ctx.owned,()=>true);expect(f.catalog.get('b')?.unread).toBe(true);
+  await f.catalog.archiveUpdated('b',true);expect(new ThreadCatalog(f.io).snapshot(f.ctx.owned).recycle[0]?.unread).toBe(true);await f.catalog.archiveUpdated('b',false);expect(new ThreadCatalog(f.io).get('b')?.unread).toBe(true);expect([...f.values.keys()]).toEqual([THREAD_CATALOG_KEY]);
+ });
+ it('allows a concurrent directory read without discarding its response or the local unread mark',async()=>{
+  const f=await fixture();let release!:(v:any)=>void;const read=f.catalog.list({request:()=>new Promise(r=>release=r)}as any,root,()=>f.ctx.owned,()=>true);await f.handle();release({data:[thread('a'),thread('b')],nextCursor:null});await read;expect(f.catalog.error).toBe('');expect(f.catalog.get('b')?.unread).toBe(true);
+ });
+ it('only clears the visible loaded active thread on automatic entry',async()=>{
+  const f=await fixture();await f.handle();await f.handle({...f.message,id:2,unread:false,automatic:true}as any);expect(f.catalog.get('b')?.unread).toBe(true);expect(f.post.mock.calls.at(-1)?.[0]).toMatchObject({ok:false});
+  f.ctx.threadId='b';await f.handle({...f.message,id:3,unread:false,automatic:true}as any);expect(f.catalog.get('b')?.unread).toBeUndefined();expect(new ThreadCatalog(f.io).get('b')?.unread).toBeUndefined();
+ });
+ it.each([{ready:false},{busy:true},{operating:true},{owned:['a']}])('rejects stale or unavailable context %j without changing the marker',async(change)=>{const f=await fixture();Object.assign(f.ctx,change);await f.handle();expect(f.catalog.get('b')?.unread).toBeUndefined();expect(f.post.mock.calls.at(-1)?.[0]).toMatchObject({ok:false});});
+ it('drops an old connection request without sending a receipt under a new connection',async()=>{const f=await fixture();f.ctx.connectionId=2;await f.handle();expect(f.catalog.get('b')?.unread).toBeUndefined();expect(f.post).not.toHaveBeenCalled();});
+ it.each([{busy:true},{operating:true},{ready:false},{threadId:'b',visible:false,loaded:false}])('acknowledges an already committed mark when availability changes during storage %j',async(change)=>{
+  const f=await fixture();f.io.update.mockImplementationOnce(async(k,v)=>{f.values.set(k,structuredClone(v));Object.assign(f.ctx,change);});
+  await f.handle();expect(new ThreadCatalog(f.io).get('b')?.unread).toBe(true);expect(f.post).toHaveBeenCalledExactlyOnceWith({type:'thread-result',id:1,connectionId:1,ok:true});
+ });
+ it('does not deliver a committed old-generation receipt to a replacement connection',async()=>{
+  const f=await fixture();f.io.update.mockImplementationOnce(async(k,v)=>{f.values.set(k,structuredClone(v));f.ctx.connectionId=2;});await f.handle();expect(new ThreadCatalog(f.io).get('b')?.unread).toBe(true);expect(f.post).not.toHaveBeenCalled();
+ });
+ it.each([{loaded:false},{visible:false}])('retains unread when automatic entry is not readable %j',async(change)=>{const f=await fixture();await f.handle();f.ctx.threadId='b';Object.assign(f.ctx,change);await f.handle({...f.message,unread:false,automatic:true}as any);expect(f.catalog.get('b')?.unread).toBe(true);});
+ it('preserves confirmed marks after a storage failure and permits a later explicit retry',async()=>{const f=await fixture();await f.handle();f.io.update.mockRejectedValueOnce(Error('synthetic disk error'));await f.handle({...f.message,unread:false});expect(new ThreadCatalog(f.io).get('b')?.unread).toBe(true);expect(f.post.mock.calls.at(-1)?.[0]).toMatchObject({ok:false});await f.handle({...f.message,unread:false});expect(new ThreadCatalog(f.io).get('b')?.unread).toBeUndefined();});
+ it('deletion clears the marker and a delayed mark cannot resurrect deleted history',async()=>{const f=await fixture();await f.handle();await f.catalog.mutateEmpty('b','delete',()=>true);await f.handle();expect(f.catalog.get('b')).toMatchObject({deleted:true});expect(f.catalog.get('b')?.unread).toBeUndefined();expect(f.catalog.snapshot(f.ctx.owned).sessions.some(s=>s.id==='b')).toBe(false);});
+ it('revalidates a queued edit before writing and preserves corrupt records without overwriting them',async()=>{
+  const f=await fixture();let valid=true;const pending=f.catalog.setUnread('b',true,()=>valid);valid=false;await expect(pending).rejects.toThrow('失效');expect(f.catalog.get('b')?.unread).toBeUndefined();const raw=structuredClone(f.values.get(THREAD_CATALOG_KEY))as any;raw.entries[1].unread='yes';f.values.set(THREAD_CATALOG_KEY,raw);const corrupt=new ThreadCatalog(f.io);await expect(corrupt.setUnread('b',true,()=>true)).rejects.toThrow('损坏');expect(f.values.get(THREAD_CATALOG_KEY)).toEqual(raw);
+ });
+});
+describe('entering a session consumes a mark once, never on ordinary redraw',()=>{
+ const probe=()=>Object.assign(Object.create(SessionBar.prototype),{readOwner:'',readEntered:false,state:{connectionId:1,threadId:'a',ready:true,toolCheck:{verified:true,threadId:'a'},sessionCatalog:{sessions:[{id:'a',unread:true},{id:'b',unread:true}]}},locked:()=>false,manage:vi.fn()})as any;
+ it('clears after first loaded entry, keeps a later manual mark through redraws, and clears on re-entry',async()=>{const p=probe();p.enteredRead();await Promise.resolve();expect(p.manage).toHaveBeenCalledExactlyOnceWith('read','a',undefined,true);p.enteredRead();await Promise.resolve();expect(p.manage).toHaveBeenCalledTimes(1);p.state.threadId='b';p.state.toolCheck.threadId='b';p.enteredRead();await Promise.resolve();expect(p.manage).toHaveBeenCalledTimes(2);p.state.threadId='a';p.state.toolCheck.threadId='a';p.enteredRead();await Promise.resolve();expect(p.manage).toHaveBeenCalledTimes(3);});
+ it('does not consume a failed restore, or a microtask whose target was replaced',async()=>{const p=probe();p.state.needsRecovery=true;p.enteredRead();await Promise.resolve();expect(p.manage).not.toHaveBeenCalled();p.state.needsRecovery=false;p.enteredRead();p.state.threadId='b';await Promise.resolve();expect(p.manage).not.toHaveBeenCalled();});
+ it('retains a background mark until foreground entry',async()=>{const p=probe();p.readingVisibility(false);p.enteredRead();await Promise.resolve();expect(p.manage).not.toHaveBeenCalled();p.readingVisibility(true);await Promise.resolve();expect(p.manage).toHaveBeenCalledOnce();});
+ it('consumes a late task mark once through old-state receipts while preserving a later manual mark',async()=>{const p=probe();p.enteredRead();await Promise.resolve();expect(p.manage).toHaveBeenCalledTimes(1);p.state.sessionCatalog.sessions[0].unreadSource='task';p.enteredRead();await Promise.resolve();expect(p.manage).toHaveBeenCalledTimes(2);p.enteredRead();await Promise.resolve();expect(p.manage).toHaveBeenCalledTimes(2);delete p.state.sessionCatalog.sessions[0].unreadSource;p.enteredRead();await Promise.resolve();expect(p.manage).toHaveBeenCalledTimes(2);});
+ it('does not clear a queued automatic mark if the native window becomes hidden before its microtask',async()=>{const p=probe();p.enteredRead();p.readingVisibility(false);await Promise.resolve();expect(p.manage).not.toHaveBeenCalled();});
+});

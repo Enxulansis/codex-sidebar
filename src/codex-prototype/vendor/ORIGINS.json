@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Local text extraction only; official slim parser with OCR and remote CDN defaults removed. No native addon is included.",
+  "assets": [
+    {
+      "file": "officeparser.slim.mjs",
+      "package": "officeparser",
+      "version": "8.1.1",
+      "source": "https://registry.npmjs.org/officeparser/-/officeparser-8.1.1.tgz",
+      "sha256": "f5b069d91ebabfc499a5bf273290d5fcc49e2b8f644a16303f7098aca504598c",
+      "upstreamSha256": "fc573ac95ccea91ae6b6a3147bcfce3cd818bfa1a3e0c05a3f507cde42d57822",
+      "modifications": "Two elliptic package metadata build-directory strings replaced with /vendor/rollup-plugin-jspm; executable parser logic and embedded license notices retained.",
+      "licenseFile": "officeparser-LICENSE.txt"
+    },
+    {
+      "file": "officeparser.slim.d.mts",
+      "package": "officeparser",
+      "version": "8.1.1",
+      "sha256": "d3d3208cbd390bfcd132884b727f14ae026f4a13e56814efda48f086b76173fe"
+    },
+    {
+      "file": "document-geometry.cjs",
+      "package": "@napi-rs/canvas",
+      "version": "0.1.100",
+      "source": "https://github.com/jarek-foksa/geometry-polyfill/tree/f36bbc8f4bc43539d980687904ce46c8e915543d",
+      "sha256": "2e0ae365059fdb0424ddd2da8401e240a250c52b7efca68680996a99e804c1a1",
+      "licenseFile": "document-geometry-package-LICENSE.txt",
+      "note": "Pure JavaScript geometry implementation shipped by the package; no canvas or .node binary is loaded."
+    },
+    {
+      "file": "xlsx.full.min.js",
+      "package": "xlsx",
+      "version": "0.20.3",
+      "source": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
+      "sha256": "cc015130aa8521e7f088f88898eba949ccdcbfb38df0bd129b44b7273c3a6f41",
+      "licenseFile": "sheetjs-LICENSE.txt",
+      "note": "Official full standalone bundle, including legacy codepages; bundled into the isolated document worker, byte input only."
+    }
+  ],
+  "licenses": [
+    "officeparser-LICENSE.txt",
+    "pdfjs-LICENSE.txt",
+    "xmldom-LICENSE.txt",
+    "fflate-LICENSE.txt",
+    "file-type-LICENSE.txt",
+    "document-geometry-package-LICENSE.txt",
+    "geometry-polyfill-LICENSE.txt",
+    "sheetjs-LICENSE.txt",
+    "sheetjs-bundled-LICENSE.txt"
+  ],
+  "retainedNotices": "The published slim bundle retains embedded PDF.js and bundled third-party notices. Two package metadata build-directory strings were anonymized; upstream and modified SHA-256 values are recorded above. PDF.js is 6.2.108; other bundled dependency versions are not inferred from this evaluation's dependency resolution."
+}

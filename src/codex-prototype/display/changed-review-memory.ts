@@ -1,0 +1,16 @@
+import type {PageHost} from '../page-host';import {validChangedReviewKeys} from '../changed-review';
+type Owner={threadId:string;connectionId:number};
+/** No optimistic hiding: only a current acknowledged snapshot may hide a public patch. */
+export class ChangedReviewMemory{
+ private keys=new Set<string>();private identity='';private readId=0;private sequence=0;private dead=false;private ready=false;private blocked=false;private notice='';private timer?:ReturnType<typeof setTimeout>;
+ private pending:{id:number;owner:Owner;keys:string[];reviewed:boolean}|undefined;
+ constructor(private host:PageHost,private owner:()=>Owner,private changed:()=>void){host.messages.addEventListener('message',this.message);window.addEventListener('pagehide',()=>this.dispose(),{once:true});}
+ configure(){const owner=this.owner(),identity=JSON.stringify(owner);if(identity===this.identity)return;this.identity=identity;clearTimeout(this.timer);this.pending=undefined;this.ready=false;this.blocked=false;this.notice='';this.keys.clear();if(!owner.threadId)return;const readId=++this.readId;this.host.postMessage({type:'changed-review-read',readId,...owner});this.timer=setTimeout(()=>{if(this.dead||identity!==this.identity||readId!==this.readId||this.ready)return;this.blocked=true;this.notice='已阅记录读取未确认，请正常 Reload 后核对';this.changed();},5000);}
+ has(key:string){return this.keys.has(key);}status(){return{disabled:!this.ready||this.blocked||!!this.pending,notice:this.notice||(!this.ready?'正在核对本地已阅记录':this.pending?'正在保存已阅记录':'')};}
+ save(keys:string[],reviewed:boolean){if(this.dead||this.status().disabled||!validChangedReviewKeys(keys)||!keys.length)return;const owner=this.owner(),id=++this.sequence;this.pending={id,owner,keys:[...keys],reviewed};this.notice='';this.timer=setTimeout(()=>{if(this.pending?.id!==id)return;this.pending=undefined;this.blocked=true;this.notice='已阅记录保存未确认，请正常 Reload 后核对；不会自动重试';this.changed();},5000);this.host.postMessage({type:'changed-review-save',id,keys,reviewed,...owner});this.changed();}
+ private message=(event:MessageEvent)=>{const m=event.data,owner=this.owner();if(this.dead||m?.threadId!==owner.threadId||m.connectionId!==owner.connectionId)return;
+  if(m.type==='changed-review-records'&&m.readId===this.readId&&!this.ready&&!this.blocked){clearTimeout(this.timer);if(!validChangedReviewKeys(m.keys)||m.error){this.blocked=true;this.notice=m.error||'已阅记录格式不可用，请正常 Reload 后核对';}else{this.keys=new Set(m.keys);this.ready=true;this.notice='';}this.changed();}
+  if(m.type==='changed-review-saved'){const p=this.pending;if(!p||m.id!==p.id||m.reviewed!==p.reviewed||JSON.stringify(m.requestedKeys)!==JSON.stringify(p.keys)||p.owner.threadId!==owner.threadId||p.owner.connectionId!==owner.connectionId)return;clearTimeout(this.timer);this.pending=undefined;const valid=validChangedReviewKeys(m.keys),error=typeof m.error==='string'?m.error:'';if(m.ok===true&&valid&&!error&&p.keys.every(key=>m.keys.includes(key)===p.reviewed)){this.keys=new Set(m.keys);this.notice='';}else{this.notice=error||'已阅记录保存未确认，请正常 Reload 后核对';this.blocked=!error||error.includes('未确认')||!valid;}this.changed();}
+ };
+ dispose(){this.dead=true;clearTimeout(this.timer);this.pending=undefined;this.host.messages.removeEventListener('message',this.message);}
+}

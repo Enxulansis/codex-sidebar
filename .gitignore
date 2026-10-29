@@ -1,0 +1,22 @@
+# BEGIN project-init managed ignores
+_temp/
+__pycache__/
+*.py[cod]
+node_modules/
+Thumbs.db
+Desktop.ini
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+# END project-init managed ignores
+output/
+experiments/codex-panel/dist/
+experiments/codex-panel/*demo.html
+experiments/codex-panel/preview-comparison.html
+coverage/
+*.vsix
+auth.json
+auth.json.*

@@ -1,0 +1,8 @@
+{
+  "base": "codex-page-entry-daily-dev21.json",
+  "reviewedChanges": {
+    "src/codex-prototype/rpc.ts": "ff7d10e9f32cd2d39c36fd16130b7cda097f6feda1f2a9ffd5ef6fa251e4b20b",
+    "src/codex-prototype/pin.ts": "742d439338b3bfce4c82218020f6471ff5a13a83a7860087fa2659a1922de296",
+    "src/codex-prototype/tools.ts": "5324bf72910c30b91920f0ea99b178770bdb3616972b0fc9f0c3394e5ed13b38"
+  }
+}

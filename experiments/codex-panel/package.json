@@ -1,0 +1,22 @@
+{
+  "name": "dsh-codex-experiment",
+  "publisher": "lixxx1-lab",
+  "displayName": "Codex Sidebar",
+  "version": "0.1.78-dev.22",
+  "codexDailyChat": true,
+  "private": true,
+  "engines": {"vscode": "^1.125.0"},
+  "main": "./dist/extension.js",
+  "activationEvents": ["onView:codexPrototype.chat","onWebviewPanel:codexPrototype.offlineExperience"],
+  "contributes": {
+    "viewsContainers": {"secondarySidebar": [{"id": "codexPrototype", "title": "Codex", "icon": "media/codex.svg"}]},
+    "views": {"codexPrototype": [{"id": "codexPrototype.chat", "name": "Codex", "type": "webview"}]},
+    "commands": [{"command": "codexPrototype.open", "title": "打开Codex侧栏", "category": "Codex", "icon": {"light":"media/codex-light.svg","dark":"media/codex.svg"}}, {"command": "codexPrototype.openOfflineExperience", "title": "Codex: 离线交互体验（合成资料）"}, {"command": "codexPrototype.openOffline", "title": "Codex 原型: 离线显示回放"}, {"command":"codexPrototype.previewComparison","title":"Codex 原型: 图片预览对照（165）"}, {"command":"codexPrototype.refreshSessions","title":"刷新会话列表","icon":"$(list-tree)"}, {"command":"codexPrototype.reconnect","title":"连接 / 重新连接 Codex","icon":"$(debug-restart)"}, {"command":"codexPrototype.sortSessions","title":"会话排序"}],
+    "menus": {"editor/title": [{"command": "codexPrototype.open", "group": "navigation@100"}], "view/title": [{"command":"codexPrototype.refreshSessions","when":"view == codexPrototype.chat","group":"navigation@1"}, {"command":"codexPrototype.reconnect","when":"view == codexPrototype.chat","group":"navigation@2"}, {"command":"codexPrototype.sortSessions","when":"view == codexPrototype.chat","group":"codex@1"}]},
+    "keybindings": [
+      {"command":"codexPrototype.undoInView","key":"ctrl+z","when":"focusedView == codexPrototype.chat"},
+      {"command":"codexPrototype.redoInView","key":"ctrl+shift+z","when":"focusedView == codexPrototype.chat"},
+      {"command":"codexPrototype.redoInView","key":"ctrl+y","when":"focusedView == codexPrototype.chat"}
+    ]
+  }
+}

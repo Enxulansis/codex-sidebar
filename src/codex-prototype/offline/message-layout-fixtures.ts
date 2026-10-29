@@ -1,0 +1,7 @@
+import{FORMULA_MARKDOWN,syntheticImages}from'./fixtures';import{syntheticTailMeta}from'./tail-fixtures';
+export function messageLayoutFixture(){const images=syntheticImages();return[
+ {turnId:'layout-one',complete:true,displayMeta:syntheticTailMeta(0,false),item:{type:'userMessage',id:'layout-user',content:[{type:'text',text:'保留原来的消息气泡和显示体验。这里只使用合成材料。'}]}},
+ {turnId:'layout-one',complete:true,displayMeta:syntheticTailMeta(0),item:{type:'agentMessage',id:'layout-answer',phase:'final_answer',text:'# 显示体验对照\n\n正文、消息头与尾部对齐。**粗体**、中文、Latin 与 `inline $literal$` 保留各自语义。\n\n> 引用第一行\n> 引用第二行\n> 引用第三行\n> 引用第四行\n\n| 序号 | 内容 |\n|---|---|\n| 1 | 表格第一行 |\n| 2 | 表格第二行 |\n| 3 | 表格第三行 |\n| 4 | 表格第四行 |\n\n```javascript\nconst first = 1;\nconst second = 2;\nconst third = 3;\nconsole.log(first + second + third);\n```\n\n'+FORMULA_MARKDOWN}},
+ {turnId:'layout-two',complete:true,displayMeta:syntheticTailMeta(1,false),item:{type:'userMessage',id:'layout-long-user',content:[{type:'text',text:Array.from({length:35},(_,i)=>'第'+(i+1)+'行：用户长消息仍然按原气泡折叠；<script>不能执行</script>，$raw$ 保留原文。').join('\n')},...['png','jpeg'].map(id=>({type:'localImage',path:'.codex-prototype-assets/synthetic-'+id,imageId:id,displayImage:images[id]}))]}},
+ {turnId:'layout-two',complete:true,displayMeta:syntheticTailMeta(1),item:{type:'agentMessage',id:'layout-second',phase:null,text:'阶段未知的公开历史正文保持可见，不推测它是过程说明。\n\n完成后可复制、展开图片预览，再切换线程或正常 Reload。'}}
+ ];}

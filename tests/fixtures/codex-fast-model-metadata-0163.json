@@ -1,0 +1,8 @@
+{
+  "source": "Actual model/list from pinned codex-cli 0.163.0-alpha.10.2",
+  "capturedAt": "2026-10-24T17:08:03.684Z",
+  "models": [
+    {"model": "gpt-6.1-sol", "serviceTiers": [{"id": "priority", "name": "Fast", "description": "2x speed, increased usage"}], "defaultServiceTier": null},
+    {"model": "gpt-6-luna", "serviceTiers": [{"id": "priority", "name": "Fast", "description": "1.5x speed"}], "defaultServiceTier": "priority"}
+  ]
+}

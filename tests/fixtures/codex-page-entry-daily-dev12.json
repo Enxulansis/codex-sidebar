@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "historicalRevision": "38d1f3d2acec0440fe76144bb98dd8da572b117c",
+  "sourceRevision": "a9b217077477c606adcd3d4f3a6572161952372a plus reviewed dev.9–dev.12 working tree; protected digest f9ffced30c6ba58494116c2a6ee86cb90dfdd7af52d0eda5700caa07e0d23b27",
+  "phase": "development UI 0.1.78-dev.12",
+  "reason": "The 0185 checkpoint stayed selected after committed UI/dictation changes starting at 30101498 and reviewed local dev.9–dev.12 changes. Preserve every historical fixture, audit the seven changed protected sources and two entry functions, and pin this explicit accepted snapshot. The three final settings regions are ordinary expanded sections; no runtime gates are bypassed.",
+  "coveredBy": [
+    "tests/codex-sidebar-lifecycle.spec.ts: exact activation/pageId, independent turn Stop, stale replies, cancellation, send-owner and draft transactions",
+    "tests/codex-draft-memory.spec.ts: unknown/recovery protection, persistence and exact-owner receipts",
+    "tests/codex-dictation.spec.ts: owner/process cancellation, Stop/Cancel and exit barriers",
+    "tests/codex-permission-session.spec.ts: permission receipts, stale connection and accepted/rejected outcomes",
+    "tests/codex-permission-selection.spec.ts: bounded verified catalog and unavailable/unknown permission states",
+    "tests/codex-prototype.spec.ts: send, decision and approval/owned path guards",
+    "experiments/codex-panel/check-dictation-page.mjs: production voice DOM, turn Stop independence, draft/caret insertion and late-owner isolation",
+    "experiments/codex-panel/check-ui-cleanup-page.mjs: final three settings regions directly visible, four themes and preserved errors",
+    "experiments/codex-panel/check-service-status-page.mjs: explicit read-only service queries and unknown-save isolation",
+    "experiments/codex-panel/check-settings-lifecycle-page.mjs: settings persistence, reconciliation, failure and cross-page ownership",
+    "experiments/codex-panel/check-theme-quota-page.mjs: theme tokens, composer reachability and quota state in four themes"
+  ],
+  "shellSha256": "d2b73617c7a51b6e10ce494dbd79acb64a285588eb7aeb78276109e847e457cc",
+  "protectedFiles": {
+    "src/codex-prototype/extension.ts": "eb718a3767b20b4fa6f77a325f639f5060b900c4f08f4a20ae7ca2891e4c7ea9",
+    "src/codex-prototype/session.ts": "9c03cbd16caadca05cf6d1bc301d285d19fe0e6f2f4869252ba5129fa3a640a3",
+    "src/codex-prototype/state.ts": "c511da8e5158f2dac6b46a61c80a3a12a7e11cab36da6f432339eeda3d886541",
+    "src/codex-prototype/rpc.ts": "5f659e1339324f2b3a4f3954bc5b8985ed28c4277a89ba0acd59304d70b86910",
+    "src/codex-prototype/storage.ts": "aa69f7db7a6d76d8afaa0dc01cccae01e0ec900617b18301f8e32c5a95af687f",
+    "src/codex-prototype/pin.ts": "0972bc480fe3eefa8502ce286780c0ef077fc8c31ae7a684845bff1c9cd67fb5",
+    "src/codex-prototype/tools.ts": "ec34d78b32519b9738c58f680a82b212965a699740f67d42281f9dccded2b1b6",
+    "src/codex-prototype/draft-store.ts": "ccc3be08f9d7cd1e32147c8f4e7d814a1e8d965799942bc288436ac78fe5f1f3",
+    "src/codex-prototype/draft-store-types.ts": "5f2aa5dda0b5f298ca56c82efb22aa7e854c1bf53415d1d304bf11cf08e70c3f",
+    "src/codex-prototype/display-settings.ts": "c5c1eb5a3458b4710c4d50dd6446ed8227c47392857bd1da3bb3eb87537a0a4c",
+    "src/codex-prototype/block-fold-store.ts": "1692c15cf8e026afdca1de062bcf750497b76468376758f7c5db0b14506f28ce",
+    "src/codex-prototype/user-fold-store.ts": "d308939fa0833aaaaf67aa6bf6d8b483c7e96d0f32a132cb4fe6c6d1685f15dc",
+    "src/codex-prototype/scroll-view-store.ts": "3d666725b9dd2f659ea78967e4de8c16878db4f65c27c18b79456f9ca337347e",
+    "src/codex-prototype/tool-expansion-store.ts": "ed3ffb633ecf606750b03eb5749bfaf4b6949990844ac9e2fbfd1230da671e77",
+    "src/codex-prototype/work-fold-store.ts": "8e6ca369529c68e806b20a73ce5b6efb4c66e0f44a7bc444077eb620b701d88e",
+    "src/codex-prototype/attachment-policy.ts": "1a087344b4bc4edea07b72cce2f24b2709a5e9e462d3a88195bcdf09f3ca77cb",
+    "src/codex-prototype/send-request.ts": "ba7d7d980d34ca00b150f0b286cf9a91d9d58b39a761803b01c4dcca5053523c",
+    "src/codex-prototype/formula-export-limits.ts": "744279e6acca4bf76684761c58de1068ee7556d70618e44c385de6a19b6be244",
+    "src/codex-prototype/display/style.ts": "d6e49aa327173b5e36fac633ae233ecb59def6ded1e07b70b7a523f1e43a9468",
+    "src/codex-prototype/display/settings-style.ts": "25670293b8cfbe63edbbb2e75ea9e5b1e248a6d9c1f24697e2fb749bbfc86940",
+    "src/codex-prototype/display/message-layout.ts": "e4c9750c60c75d25b8602dd7008a73ee71b2381b1093c219d252329de886d765",
+    "src/codex-prototype/display/composer.ts": "06cdb0788dee69a08f6c5ac556b500130f8555e1d92ab16d910007242bf6d7ab",
+    "src/codex-prototype/display/dsh-static-preview.ts": "2fd2311e790b4a779316022d39f5b52e8242ba7958fe1cc022fe575e73e2aacf",
+    "src/codex-prototype/display/message-actions.ts": "94d5755800422e17871839d2f4ac5af2ff5f26df94a0179acf3d32cf24377e51",
+    "src/codex-prototype/display/conversation-scroll.ts": "7e9fbb0267ede43ff61104f784f9d471f0410d3cefc8bfb155b7f875f7a78581",
+    "src/codex-prototype/display/draft-memory.ts": "6156dee1d4bc577f500db63ed7e93cb307ec4f1dd0432a3bf8ee920eddbcc188",
+    "src/codex-prototype/webview.ts": "4b7ec4e092d0485f8ec791b4f28c1d02d98bf30b41dd9ac24ab93d2b960b35a3",
+    "src/codex-prototype/page-entry.ts": "1ad55b87b82aafed801f28499ab35c97f4a359d2b8c26d81454bf0eabdfdbcf1"
+  },
+  "functionSha256": {
+    "render": "7d659755e6d98ec64fd463cd36e874a111b3af5254ed9fff81a00d37ab033584",
+    "updateSend": "6ff69f86d4e444a6fbbbd673877d0b03c418f3d65e789bbd56499fc921d72c64",
+    "rememberDraft": "8fff988df1b2d69d1428706db7fb57a770966592664519aea34fa4157b059e24",
+    "resetPendingSend": "b40ca2f10bffaccc6148fa4a52d3d307c8afd15c4106334b982bac89a7b9c65a",
+    "sameOwner": "77b5c82f260a31bba0cc2be4bbdd40e26a5a1a3cc24e2506c3027b2556d94db7",
+    "clearFormulaExports": "1db0dcc3e5d8dc39cbe88b13a88da7d7e661084099dc4f78bf2215995064e8eb",
+    "loadMathJax": "c7e43f3880839b7f3093a1b61067813c801f27e08591446263faa8a27ff41c46",
+    "exportFormula": "e6552be3fa49972604710c3ab2e22a313a2e80af273687f83d71d9724df17a09",
+    "copyText": "e7070808c14ab01f3a15020bc965ee5f7e244d541c6629a30f87e3050aac16a5",
+    "forkReply": "f912e20b163052cef7e3f4a434c34acd2e7fc3afe0735c639e83a3b2a1a3251c",
+    "text": "432a2787cd8b31caca7fc082427eb6ad05ffe0f52a396d2644226c75ec1d994e"
+  },
+  "inheritedCheckpoint": "tests/fixtures/codex-page-entry-daily-0185.json",
+  "inheritedCheckpointSha256": "36e2212d8454e52c09af2e053b15e38d32b3997de743cf0d640cbaeeb699c6fa",
+  "reviewedChanges": {
+    "protectedFiles": {
+      "src/codex-prototype/extension.ts": "30101498 separates model-turn Stop from voice Stop/Cancel; the existing page lease, send owner/cancellation checks and approval callback validation remain. Lifecycle and dictation regressions verify this intentional behavior.",
+      "src/codex-prototype/display/style.ts": "Existing sidebar typography, theme styles and targeted UI spacing changes after the dictation checkpoint; no protocol or execution logic.",
+      "src/codex-prototype/display/composer.ts": "Dev.11 changes only send-button radius and VS Code theme foreground/background/hover tokens; prompt keyboard, IME, disabled-send and resize logic is unchanged.",
+      "src/codex-prototype/display/settings-style.ts": "Existing narrow settings layout and dev.11 alignment/focus styles; dev.12 removes the three diagnostic accordion rules at the user request.",
+      "src/codex-prototype/display/draft-memory.ts": "Shortens recovery notices only; blocked/uncertain/recovery conditions and persistence/confirmation identities remain unchanged.",
+      "src/codex-prototype/webview.ts": "Post-0185 voice-bar styles and compact composer markup; removes hidden/redundant normal notices. CSP and startup timeout values remain independently asserted.",
+      "src/codex-prototype/page-entry.ts": "Post-0185 independent dictation controls, compact toolbar wiring and daily routine-notice cleanup. Send/queue/steer guards, owner/epoch checks, approval callback tokens and the nine other pinned functions remain."
+    },
+    "functions": {
+      "render": "Updates voice/toolbar presentation and hides routine daily status; all actual error/approval/recovery state stays visible.",
+      "updateSend": "Preserves every send block and owner guard while presenting independent model-turn and voice controls."
+    },
+    "shell": "Reviewed voice/composer/settings CSS and markup; full CSP, disabled startup actions, display exports and one-time boot retain executable assertions."
+  },
+  "sourceReview": {
+    "baseRevision": "a9b217077477c606adcd3d4f3a6572161952372a",
+    "reviewedDiffSha256": "2a955d994e2bba688ecb43ed15fd1db51745bbb6104eff334a4c1a39abecbcc1",
+    "protectedSourceDigest": "f9ffced30c6ba58494116c2a6ee86cb90dfdd7af52d0eda5700caa07e0d23b27",
+    "firstDriftCommit": "30101498",
+    "unchangedProtectedFiles": 21,
+    "unchangedFunctions": 9
+  }
+}
+

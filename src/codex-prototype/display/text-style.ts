@@ -1,0 +1,3 @@
+/** DSH 0.1.165 UI text and CJK code fallback (webview.ts:92–105,378,594–595).
+ * Only local installed fonts; never fetch a font or open a resource path. */
+export const TEXT_STYLE=`@font-face{font-family:'DSH CJK';src:local('Noto Sans SC'),local('Microsoft YaHei'),local('PingFang SC'),local('Microsoft JhengHei');unicode-range:U+2E80-9FFF,U+3000-303F,U+FF00-FFEF,U+20000-2FA1F}:root{--editor-font:'DSH CJK',var(--vscode-editor-font-family,Consolas,monospace)}body{font:13px/1.5 var(--vscode-font-family,system-ui)}input{font:inherit;color:inherit}.markdown{line-height:1.65}.markdown code,.code-wrap pre{font-family:var(--editor-font)}.plain-body,article[data-type=userMessage]>pre{font:inherit;line-height:1.65}`;

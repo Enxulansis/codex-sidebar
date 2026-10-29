@@ -1,0 +1,8 @@
+import {afterEach,describe,it,expect,vi}from 'vitest';import{MessageCopyBridge}from'../src/codex-prototype/display/message-copy-bridge';
+function fixture(){const w=new EventTarget(),posts:any[]=[];vi.stubGlobal('window',w);let owner={threadId:'t',connectionId:1};const b=new MessageCopyBridge({postMessage:m=>posts.push(m),messages:window},()=>owner),reply=(delta:any={})=>w.dispatchEvent(new MessageEvent('message',{data:{type:'message-copied',id:1,threadId:'t',connectionId:1,turnId:'turn',itemId:'user',ok:true,...delta}}));return{b,posts,w,reply,switchOwner:()=>owner={threadId:'other',connectionId:2}}}
+afterEach(()=>{vi.unstubAllGlobals();vi.useRealTimers()});
+describe('acknowledged user copy identity',()=>{
+ it('posts only identity and accepts the exact receipt',async()=>{const f=fixture(),p=f.b.copy('turn','user');expect(f.posts).toEqual([{type:'message-copy',id:1,threadId:'t',connectionId:1,turnId:'turn',itemId:'user'}]);f.reply({itemId:'other'});f.reply();await p;f.b.dispose()});
+ it('does not accept an old owner success into a new thread',async()=>{const f=fixture(),p=f.b.copy('turn','user'),fail=expect(p).rejects.toThrow('身份');f.switchOwner();f.reply();await fail;f.b.dispose()});
+ it('failure is visible to the action; timeout and disposal never synthesize success',async()=>{vi.useFakeTimers();const f=fixture(),p=f.b.copy('turn','user'),fail=expect(p).rejects.toThrow('无文本');f.reply({ok:false,error:'无文本'});await fail;const timeout=f.b.copy('turn','user'),t=expect(timeout).rejects.toThrow('确认');await vi.advanceTimersByTimeAsync(3000);await t;const pending=f.b.copy('turn','user'),d=expect(pending).rejects.toThrow('身份');f.w.dispatchEvent(new Event('pagehide'));await d});
+});

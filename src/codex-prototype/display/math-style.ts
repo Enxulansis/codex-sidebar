@@ -1,0 +1,3 @@
+// Directly reused from DSH 0.1.165 webview.ts:563–571,585–586.
+import {FORMULA_MENU_STYLE} from './formula-menu-style';
+export const MATH_STYLE=`.markdown span.math.math-copy{display:inline-block;cursor:copy;border-radius:4px}.markdown span.math.math-copy.math-display{display:block;width:fit-content;margin:0 auto}.markdown span.math.math-copy:hover{background:rgba(128,128,128,.16)}.markdown span.math.copied{animation:dsh-copied-flash var(--math-copy-duration,1s) ease-out}@keyframes dsh-copied-flash{0%{box-shadow:0 0 0 0 rgba(56,132,255,.5)}70%{box-shadow:0 0 0 3px rgba(56,132,255,.3)}100%{box-shadow:0 0 0 6px rgba(56,132,255,0)}}.streaming span.math.math-copy{pointer-events:none}.streaming span.math.math-copy:hover{background:transparent}`+FORMULA_MENU_STYLE;
